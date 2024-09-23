@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ConfirmBox</title>
+    <style>
+        html,
+        body {
+          height: 100%;
+        }
+        .overlay {
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          background: rgba(0, 0, 0, 0.8);
+          z-index: 2;
+        }
+      
+        .confirm-box {
+          position: absolute;
+          width: 300px;
+          height: auto;
+          max-width: 100vw;
+          max-height: 50vh;
+          top: 0px;
+          left: calc(50vw - 100px);
+          text-align: center;
+          background: white;
+          border: 1px solid grey;
+          padding: 20px;
+        }
+      
+        .close {
+          cursor: pointer;
+        }
+      </style>
+</head>
+<body>
+    <div class="overlay" id="overlay" hidden>
+        <div class="confirm-box">
+          <div onclick="closeConfirmBox()" class="close">&#10006;</div>
+          <h2>Confirmation</h2>
+          <p>Are you sure to execute this action?</p>
+          <button onclick="isConfirm(true)">Yes</button>
+          <button onclick="isConfirm(false)">No</button>
+        </div>
+      </div>
+      <button onclick="showConfirmBox()">Delete</button>
+      <script>
+        function showConfirmBox() {
+          document.getElementById("overlay").hidden = false;
+        }
+        function closeConfirmBox() {
+          document.getElementById("overlay").hidden = true;
+        }
+      
+        function isConfirm(answer) {
+          if (answer) {
+            alert("Answer is yes");
+          } else {
+            alert("Answer is no");
+          }
+          closeConfirmBox();
+        }
+      </script>
+</body>
+</html>
