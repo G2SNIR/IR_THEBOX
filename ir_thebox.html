@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="ir_thebox.css" />
+    <title>ConfirmBox</title>
+  </head>
+  <body>
+    
+    <div id="ir_thebox"></div>
+    <h1>Objectif de la page : la boite de confirmation.</h1>
+    <p>L'objectif de cette page est de mettre en place une boite de confirmation d'action... qui permettra à l'utilisateur de valider ou pas une action. Ceci est notamment utile lorsque l'utilisateur décide de supprimer une donnée. Avant la suppression complète de la donnée, une confirmation de suppression lui sera demandée par exemple.</p>
+    <button id="boutton_supprimer">Supprimer</button>
+    
+    
+    <script>
+        function showConfirmBox(texte, titre="Confirmation") {
+          //document.getElementById("overlay").hidden = false;
+          let div_box = document.createElement("div");
+          div_box.id = "ir_box";
+          let div_box_titre = document.createElement("div");
+          div_box_titre.id = "ir_box_titre";
+          div_box_titre.innerHTML = titre;
+          div_box.appendChild(div_box_titre);
+          let div_box_contenu = document.createElement("p");
+          div_box_contenu.id = "ir_box_contenu";
+          div_box_contenu.innerHTML = texte;
+          div_box.appendChild(div_box_contenu);
+          let div_box_boutton = document.createElement("p");
+          div_box_boutton.id = "ir_box_boutton";
+          let div_box_boutton_oui = document.createElement("button");
+          div_box_boutton_oui.id = "ir_box_boutton_oui";
+          div_box_boutton_oui.innerHTML = "Oui";
+          div_box_boutton.appendChild(div_box_boutton_oui);
+          let div_box_boutton_non = document.createElement("button");
+          div_box_boutton_non.id = "ir_box_boutton_non";
+          div_box_boutton_non.innerHTML = "Non";
+          div_box_boutton.appendChild(div_box_boutton_non);
+          div_box.appendChild(div_box_boutton);
+
+          div_thebox = document.getElementById("ir_thebox");
+          div_thebox.appendChild(div_box);
+          div_thebox.style.zIndex = "2";
+
+          // Gestion des événements
+          let promesse = new Promise(function(resolve, reject) {
+            
+            div_box_boutton_non.addEventListener("click",function() {
+              fermetureBox();
+              reject();
+            });
+            div_box_boutton_oui.addEventListener("click",function() {
+              fermetureBox();
+              resolve("oui");
+            });
+          });
+          return promesse;
+        }
+
+        document.getElementById("boutton_supprimer").addEventListener("click", function() {
+          showConfirmBox("Etes-vous sûr de vouloir supprimer ce groupe&nbsp;?")
+          .then(resultat => console.debug("then -> boutton ok... " + resultat), erreur => console.debug("then -> bouton non ou croix"));
+        })
+
+
+        function fermetureBox() {
+          div_thebox = document.getElementById("ir_thebox");
+          // On supprime tout ce qu'il y a dans thebox
+          while(div_thebox.firstChild){
+            div_thebox.removeChild(div_thebox.firstChild);
+          }
+          div_thebox.style.zIndex = "-1";
+        }
+        //   // On supprime tous les éléments de la div
+        //   document.getElementById("thebox").style.removeProperty("zIndex");
+        // }
+        // function isConfirm(answer) {
+        //   if (answer) {
+        //     alert("Answer is yes");
+        //   } else {
+        //     alert("Answer is no");
+        //   }
+        //   closeConfirmBox();
+        // }
+      </script>
+</body>
+</html>
